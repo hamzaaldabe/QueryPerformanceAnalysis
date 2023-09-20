@@ -8,18 +8,18 @@ fake.MAX_UNIQUE_RETRY = 100000000
 db_params = {
     "host": "localhost",
     "database": "marketplace",
-    "user": "hamza",
-    "password": "14045111",
+    "user": "your_username",
+    "password": "your_password",
 }
 
 connection = psycopg2.connect(**db_params)
 cursor = connection.cursor()
 
 num_categories = 1000
-num_products = 10 * 1024 * 1024 * 1024 // 775
-num_users = 10 * 1024 * 1024 * 1024 // 92
-num_orders = 10 * 1024 * 1024 * 1024 // 33
-num_reviews = 10 * 1024 * 1024 * 1024 // 304
+num_products = 3000000
+num_users = 3000000
+num_orders = 3000000
+num_reviews = 3000000
 
 category_ids = []
 
