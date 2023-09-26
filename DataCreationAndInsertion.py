@@ -2,6 +2,7 @@ import psycopg2
 from faker import Faker
 import random
 from concurrent.futures import ThreadPoolExecutor
+from tqdm import tqdm
 
 fake = Faker()
 fake.MAX_UNIQUE_RETRY = 100000000
@@ -10,8 +11,8 @@ fake.MAX_UNIQUE_RETRY = 100000000
 db_params = {
     "host": "localhost",
     "database": "marketplace",
-    "user": "username",
-    "password": "password",
+    "user": "hamza",
+    "password": "14045111",
 }
 
 # Function for inserting data into the categories table
@@ -20,7 +21,7 @@ def insert_categories(num_categories):
     cursor = connection.cursor()
     category_ids = []
 
-    for _ in range(num_categories):
+    for _ in tqdm(range(num_categories), desc="Inserting Categories"):
         category_name = fake.word()
         cursor.execute(
             "INSERT INTO categories (category_name, parent_category_id) VALUES (%s, NULL)",
@@ -30,8 +31,6 @@ def insert_categories(num_categories):
         cursor.execute("SELECT LASTVAL()")
         category_id = cursor.fetchone()[0]
         category_ids.append(category_id)
-        connection.commit()
-        print(f"Inserted category: ID={category_id}, Name={category_name}")
 
     connection.commit()
     cursor.close()
@@ -43,7 +42,7 @@ def insert_products(num_products, category_ids):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
 
-    for _ in range(num_products):
+    for _ in tqdm(range(num_products), desc="Inserting Products"):
         product_name = fake.first_name()
         description = fake.sentence()
         price = round(random.uniform(10, 1000), 2)
@@ -54,8 +53,6 @@ def insert_products(num_products, category_ids):
             "VALUES (%s, %s, %s, %s, %s)",
             (product_name, description, price, stock_quantity, category_id),
         )
-        connection.commit()
-        print(f"Inserted product: Name={product_name}, Price={price}, Category ID={category_id}")
 
     connection.commit()
     cursor.close()
@@ -66,7 +63,7 @@ def insert_users(num_users):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
 
-    for _ in range(num_users):
+    for _ in tqdm(range(num_users), desc="Inserting Users"):
         username = fake.user_name()
         email = fake.email()
         password = fake.password()
@@ -76,8 +73,6 @@ def insert_users(num_users):
             "VALUES (%s, %s, %s, %s)",
             (username, email, password, registration_date),
         )
-        connection.commit()
-        print(f"Inserted user: Username={username}, Email={email}")
 
     connection.commit()
     cursor.close()
@@ -88,7 +83,7 @@ def insert_orders(num_orders, num_users, num_products):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
 
-    for _ in range(num_orders):
+    for _ in tqdm(range(num_orders), desc="Inserting Orders"):
         user_id = random.randint(1, num_users)
         order_date = fake.date_time_between(start_date='-2y', end_date='now')
         status = random.choice(["Pending", "Shipped", "Delivered", "Cancelled"])
@@ -99,10 +94,6 @@ def insert_orders(num_orders, num_users, num_products):
             "VALUES (%s, %s, %s, %s) RETURNING order_id",
             (user_id, order_date, status, total_amount),
         )
-
-        order_id = cursor.fetchone()[0]
-        connection.commit()
-        print(f"Inserted order: Order ID={order_id}, User ID={user_id}, Status={status}")
 
         num_order_items = random.randint(1, 5)
         for _ in range(num_order_items):
@@ -115,8 +106,6 @@ def insert_orders(num_orders, num_users, num_products):
                 "VALUES (%s, %s, %s, %s)",
                 (order_id, product_id, quantity, item_price),
             )
-            connection.commit()
-            print(f"Inserted order item: Order ID={order_id}, Product ID={product_id}, Quantity={quantity}")
 
     connection.commit()
     cursor.close()
@@ -127,7 +116,7 @@ def insert_reviews(num_reviews, num_users, num_products):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
 
-    for _ in range(num_reviews):
+    for _ in tqdm(range(num_reviews), desc="Inserting Reviews"):
         user_id = random.randint(1, num_users)
         product_id = random.randint(1, num_products)
         rating = random.randint(1, 5)
@@ -139,8 +128,6 @@ def insert_reviews(num_reviews, num_users, num_products):
             "VALUES (%s, %s, %s, %s, %s)",
             (user_id, product_id, rating, review_text, review_date),
         )
-        connection.commit()
-        print(f"Inserted review: User ID={user_id}, Product ID={product_id}, Rating={rating}")
 
     connection.commit()
     cursor.close()
