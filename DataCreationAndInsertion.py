@@ -7,7 +7,7 @@ from tqdm import tqdm
 fake = Faker()
 fake.MAX_UNIQUE_RETRY = 100000000
 
-# Define your database connection parameters here
+
 db_params = {
     "host": "localhost",
     "database": "marketplace",
@@ -15,7 +15,7 @@ db_params = {
     "password": "password",
 }
 
-# Function for inserting data into the categories table
+
 def insert_categories(num_categories):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
@@ -37,7 +37,7 @@ def insert_categories(num_categories):
     connection.close()
     return category_ids
 
-# Function for inserting data into the products table
+
 def insert_products(num_products, category_ids):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
@@ -58,7 +58,7 @@ def insert_products(num_products, category_ids):
     cursor.close()
     connection.close()
 
-# Function for inserting data into the users table
+
 def insert_users(num_users):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
@@ -78,7 +78,7 @@ def insert_users(num_users):
     cursor.close()
     connection.close()
 
-# Function for inserting data into the orders table
+
 def insert_orders(num_orders, num_users, num_products):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
@@ -111,7 +111,7 @@ def insert_orders(num_orders, num_users, num_products):
     cursor.close()
     connection.close()
 
-# Function for inserting data into the reviews table
+
 def insert_reviews(num_reviews, num_users, num_products):
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
@@ -140,9 +140,9 @@ if __name__ == "__main__":
     num_orders = 3000000
     num_reviews = 3000000
 
-    # Create a thread pool executor to run functions concurrently
+  
     with ThreadPoolExecutor(max_workers=5) as executor:
-        # Submit tasks to the executor
+    
         categories_future = executor.submit(insert_categories, num_categories)
         products_future = executor.submit(insert_products, num_products, categories_future.result())
         users_future = executor.submit(insert_users, num_users)
