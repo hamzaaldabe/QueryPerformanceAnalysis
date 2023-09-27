@@ -11,8 +11,8 @@ fake.MAX_UNIQUE_RETRY = 100000000
 db_params = {
     "host": "localhost",
     "database": "marketplace",
-    "user": "username",
-    "password": "password",
+    "user": "hamza",
+    "password": "14045111",
 }
 
 
