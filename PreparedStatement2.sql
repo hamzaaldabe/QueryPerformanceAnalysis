@@ -53,9 +53,9 @@ TopCategories AS (
 SELECT
     ps.product_id,
     ps.product_name,
-    ps.total_quantity,
+       ps.sales_rank,
+ ps.total_quantity,
     ps.total_revenue,
-    ps.sales_rank,
     u.username,
     tc.category_name,
     tc.product_count

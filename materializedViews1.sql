@@ -1,3 +1,4 @@
+EXPLAIN ANALYZE
 SELECT
     p.product_id,
     p.name AS product_name,
