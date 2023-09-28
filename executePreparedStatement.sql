@@ -1,1 +1,1 @@
-EXECUTE product_sales_query;
+SELECT * FROM get_top_products();
