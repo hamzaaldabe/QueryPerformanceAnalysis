@@ -12,7 +12,7 @@ db_params = {
     "host": "localhost",
     "database": "marketplace",
     "user": "username",
-    "password": "password"
+    "password": "password",
 }
 
 
