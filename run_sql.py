@@ -13,7 +13,7 @@ def run_sql_query(sql_file, database_name, ssh_host, ssh_username, ssh_password)
         psql_command = f'psql -d {database_name} -a -f ~/Desktop/hamza/Spring/QueryPerformanceAnalysis/{sql_file}'
         stdin, stdout, stderr = ssh_client.exec_command(psql_command)
 
-  
+    
         print(stdout.read().decode('utf-8'))
         print(stderr.read().decode('utf-8'))
 

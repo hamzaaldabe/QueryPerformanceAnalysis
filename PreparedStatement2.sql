@@ -1,4 +1,4 @@
-EXPLAIN ANALYZE
+PREPARE prepared_statement AS
 WITH ProductSales AS (
     SELECT
         p.product_id,

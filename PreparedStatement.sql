@@ -1,3 +1,4 @@
+EXPLAIN ANALYZE
 WITH ProductSales AS (
     SELECT
         p.product_id,
