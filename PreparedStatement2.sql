@@ -1,4 +1,4 @@
-EXPLAIN ANALYZE
+PREPARE prepared_statement AS
 WITH ProductSales AS (
     SELECT
         p.product_id,
@@ -53,9 +53,9 @@ TopCategories AS (
 SELECT
     ps.product_id,
     ps.product_name,
-       ps.sales_rank,
- ps.total_quantity,
+    ps.total_quantity,
     ps.total_revenue,
+    ps.sales_rank,
     u.username,
     tc.category_name,
     tc.product_count
