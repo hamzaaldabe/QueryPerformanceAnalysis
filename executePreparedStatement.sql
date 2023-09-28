@@ -1,0 +1,1 @@
+EXECUTE product_sales_query;
