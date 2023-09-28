@@ -1,4 +1,4 @@
-EXPLAIN
+EXPLAIN ANALYZE
 SELECT DISTINCT username
 FROM users
 WHERE user_id IN (
