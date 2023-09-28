@@ -1,1 +1,1 @@
-SELECT * FROM get_top_products();
+EXECUTE prepared_statement;
